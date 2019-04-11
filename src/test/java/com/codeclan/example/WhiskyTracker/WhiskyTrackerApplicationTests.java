@@ -19,32 +19,42 @@ import static org.junit.Assert.assertEquals;
 public class WhiskyTrackerApplicationTests {
 
 	@Autowired
-	WhiskyRepository whiskyRepo;
+	WhiskyRepository whiskyRepository;
 
 	@Autowired
-	DistilleryRepository distilleryRepo;
+	DistilleryRepository distilleryRepository;
 
 	@Test
-	public void contextLoads() {
+	public void canGetAllWhiskiesForYear(){
+		List<Whisky> found = whiskyRepository.findWhiskysByYear(2018);
+		assertEquals(2, found.size());
+		assertEquals("The Glendronach Revival", found.get(0).getName());
+		assertEquals("The Glendronach Original", found.get(1).getName());
 	}
 
 	@Test
-	public void canWhiskiesByAge() {
-		List<Whisky> result = whiskyRepo.getWhiskyByAge(12);
-		assertEquals(2, result.size());
+	public void canGetDistilleriesForRegionSpey(){
+		List<Distillery> found = distilleryRepository.findDistilleriesByRegion("Speyside");
+		assertEquals(2, found.size());
 	}
 
 	@Test
-	public void getDistilleriesByRegion() {
-		List<Distillery> result = distilleryRepo.getDistilleryByRegion("Lowland");
-		assertEquals(1, result.size());
+	public void canGetAllWhiskiesFromRegionSpeyside(){
+		List<Whisky> found = whiskyRepository.getAllWhiskiesFromRegion("Speyside");
+		assertEquals(1, found.size());
+		assertEquals("The Macallan Anniversary Malt", found.get(0).getName());
 	}
 
-//	@Test
-//	public void getWhiskyOfSpecificAgeByDistillery() {
-//		List<Whisky> result = distilleryRepo.getWhiskyByAge(1L, 12);
-//		assertEquals(1, result.size());
-//
-//	}
+	@Test
+	public void canGetAllWhiskiesFromDistilleryAged(){
+		List<Whisky> found = whiskyRepository.findWhiskyByDistilleryIdAndAge(1L, 15);
+		assertEquals(1, found.size());
+	}
+
+	@Test
+	public void canGetDistilleriesForWhiskiesAged(){
+		List<Distillery> found = distilleryRepository.getDistilleriesForWhiskiesAged(12);
+		assertEquals(2, found.size());
+	}
 
 }

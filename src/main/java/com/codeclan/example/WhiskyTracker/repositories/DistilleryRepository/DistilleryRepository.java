@@ -9,8 +9,9 @@ import java.util.List;
 
 @Repository
 public interface DistilleryRepository extends JpaRepository<Distillery, Long>, DistilleryRepositoryCustom {
-    List<Distillery> getDistilleryByRegion(String region);
+    // Spring Data JPA Method ("Derived") Query (no body needed)
+    List<Distillery> findDistilleriesByRegion(String region);
 
-    List<Whisky> getWhiskyByAge(Long id, int age);
-//    List<Whisky> getWhiskyByRegion(String region);
+    // Custom Criteria query defined in DistilleryRepositoryImpl
+    List<Distillery> getDistilleriesForWhiskiesAged(int age);
 }
